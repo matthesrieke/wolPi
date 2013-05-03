@@ -52,6 +52,11 @@ public class MainActivity extends Activity {
 		
 		HostConfiguration host = Settings.getInstance().getSelectedHostConfiguration();
 		
+		if (host == null) {
+			in.onError("No configuration available! Define one in the Settings.");
+			return;
+		}
+		
 		WolPi wolPi = new WolPi(host.getSSHConnection(),
 				in);
 		
