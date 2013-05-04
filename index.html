@@ -32,13 +32,28 @@
 
     <div class="container">
       <section id="main_content">
-        <h1>"My stupid router is blocking the broadcast IP!"</h1>
+        <h1>"<i>My stupid router is blocking the broadcast IP!</i>"</h1>
 
 <p>Yes, mine too. So I am using a Raspberry Pi as a proxy
 to send my magic packet call.</p>
 
 <p>This is a convenience app, providing a one-click WOL call
 (via SSH and the 'wakeonlan' module).</p>
+      </section>
+      <section id="main_content">
+        <h3>Installation</h3>
+
+<p>You will need Maven (3) for the installation procedure.</p>
+
+<ul>
+  <li>Download the sources (.zip or .tar)</li>
+  <li>Extract</li>
+  <li>Connect your Android device and enable USB Debugging</li>
+  <li>run <pre>mvn clean install android:deploy</pre></li>
+</ul>
+
+<p>The app should now be installed on your device.</p>
+
       </section>
       <section id="credits">
 
