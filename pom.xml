@@ -6,12 +6,16 @@
 	<groupId>de.matthesrieke</groupId>
 	<artifactId>wolPi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-    <packaging>apk</packaging>
-	
+	<packaging>apk</packaging>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.7.5</slf4j.version>
 		<logback.version>1.0.11</logback.version>
+		<!-- we need this as junit deps are only available
+		in profile "test-execution" - m2e-android somehow breaks the APK packaging
+		when two deps have the same file in it (here "LICENSE.txt") -->
+		<skipTests>true</skipTests>
 	</properties>
 
 	<licenses>
@@ -22,6 +26,14 @@
 	</licenses>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.java</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -42,12 +54,12 @@
 				<artifactId>android-maven-plugin</artifactId>
 				<version>3.5.3</version>
 				<extensions>true</extensions>
-                <configuration>
-                    <sdk>
-                        <!-- platform or api level (api level 4 = platform 1.6)-->
-                        <platform>8</platform>
-                    </sdk>
-                </configuration>
+				<configuration>
+					<sdk>
+						<!-- platform or api level (api level 4 = platform 1.6) -->
+						<platform>8</platform>
+					</sdk>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -63,6 +75,12 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>hamcrest-core</artifactId>
+					<groupId>org.hamcrest</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -91,12 +109,29 @@
 			<artifactId>jul-to-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
-        <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>android</artifactId>
-            <version>2.2.1</version>
-            <scope>provided</scope>
-        </dependency>
+
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>2.2.1</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>test-execution</id>
+			<properties>
+				<skipTests>false</skipTests>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<version>4.11</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

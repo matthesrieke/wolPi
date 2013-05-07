@@ -5,11 +5,13 @@ import de.matthesrieke.wolpi.Interactor;
 import de.matthesrieke.wolpi.R;
 import de.matthesrieke.wolpi.WolPi;
 import de.matthesrieke.wolpi.settings.HostConfiguration;
-import de.matthesrieke.wolpi.settings.Settings;
+import de.matthesrieke.wolpi.settings.SettingsProvider;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,7 +25,8 @@ import android.widget.TextView;
  */
 public class MainActivity extends Activity {
 
-
+	private HostConfiguration host;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +38,21 @@ public class MainActivity extends Activity {
 				startPressed();
 			}
 		});
+		
+		this.host = resolveSelectedHostConfiguration(savedInstanceState);
+	}
+
+	private HostConfiguration resolveSelectedHostConfiguration(Bundle savedInstanceState) {
+		Bundle b;
+		if (savedInstanceState != null)
+			b = savedInstanceState;
+		else
+			b = getIntent().getExtras();
+		
+		if (b == null) return null;
+		
+		String value = b.getString("hostId");
+		return SettingsProvider.Instance.getProvider().getHostForId(value);
 	}
 
 	@Override
@@ -50,8 +68,6 @@ public class MainActivity extends Activity {
 		
 		Interactor in = new TextViewInteractor(this, textView);
 		
-		HostConfiguration host = Settings.getInstance().getSelectedHostConfiguration();
-		
 		if (host == null) {
 			in.onError("No configuration available! Define one in the Settings.");
 			return;
@@ -63,4 +79,17 @@ public class MainActivity extends Activity {
 		wolPi.executeWakeOnLan(host.getWolSettings());
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.action_settings:
+	        	Intent intent = new Intent(this, HostListActivity.class);
+	        	startActivity(intent);
+	            return true;
+	        case R.id.action_about:
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 }

@@ -25,5 +25,13 @@ public class HostConfiguration {
 	public WolSettings getWolSettings() {
 		return wolSettings;
 	}
+
+	public String getId() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getSSHConnection().getHost());
+		sb.append(" / ");
+		sb.append(getWolSettings().getMacAddress());
+		return sb.toString();
+	}
 	
 }

@@ -33,6 +33,10 @@ public interface SettingsProvider {
 	 * trigger a storage of the current configuration
 	 */
 	public void saveConfiguration();
+
+	public void addHost(HostConfiguration host);
+
+	public void deleteHost(HostConfiguration host);
 	
 	/**
 	 * Provide access to the register {@link SettingsProvider}
@@ -65,7 +69,6 @@ public interface SettingsProvider {
 		}
 		
 	}
-
 
 
 }

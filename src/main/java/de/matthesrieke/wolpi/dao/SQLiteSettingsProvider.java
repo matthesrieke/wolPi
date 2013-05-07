@@ -49,4 +49,14 @@ public class SQLiteSettingsProvider implements SettingsProvider {
 		hosts.size();
 	}
 
+	@Override
+	public synchronized void addHost(HostConfiguration host) {
+		this.hosts.add(host);
+	}
+
+	@Override
+	public synchronized void deleteHost(HostConfiguration host) {
+		this.hosts.remove(host);
+	}
+
 }

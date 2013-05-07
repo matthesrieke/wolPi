@@ -21,6 +21,10 @@ public class SSHConnection {
 		this.password = password;
 	}
 
+	public SSHConnection() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getHost() {
 		return host;
 	}
