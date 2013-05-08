@@ -155,7 +155,7 @@ public class WolPi {
 				
 				String command = "wakeonlan -i " + wolSettings.getBroadcastIp() + " " + wolSettings.getMacAddress();
 				
-				command = "date";
+//				command = "date";
 				
 				CommandResult result;
 				try {
