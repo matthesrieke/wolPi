@@ -16,6 +16,8 @@
     <string name="preference_ssh_user">[user]</string>
     <string name="preference_wol_mac">[target mac address]</string>
     <string name="preference_wol_broadcast_ip">[remote broadcast IP (optional)]</string>
+    <string name="dialog_host_edit">Edit</string>
+    <string name="dialog_host_delete">Delete</string>
     
 
 </resources>

@@ -6,7 +6,6 @@ import de.matthesrieke.wolpi.settings.SSHConnection;
 import de.matthesrieke.wolpi.settings.SettingsProvider;
 import de.matthesrieke.wolpi.settings.WolSettings;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +20,7 @@ import android.widget.TextView;
  */
 public class HostManagementActivity extends Activity {
 
+	public static final int REQUEST_CODE = 2;
 	private HostConfiguration currentHostConfig;
 
 	@Override
@@ -72,14 +72,20 @@ public class HostManagementActivity extends Activity {
 			public void onClick(View v) {
 				processHostConfiguration();
 				SettingsProvider.Instance.getProvider().saveConfiguration();
+				setResult(RESULT_OK);
 				returnToHostList();
 			}
 		});
 	}
+	
+	@Override
+	public void onBackPressed() {
+		setResult(RESULT_CANCELED);
+		returnToHostList();
+	}
 
 	protected void returnToHostList() {
-		Intent hostList = new Intent(this, HostListActivity.class);
-		startActivity(hostList);
+		finish();
 	}
 
 	protected void processHostConfiguration() {
@@ -116,6 +122,7 @@ public class HostManagementActivity extends Activity {
 		if (wolBroadcast != null && !wolBroadcast.isEmpty()) {
 			wol.setBroadcastIp(wolBroadcast);
 		}
+		
 		
 		if (this.currentHostConfig == null) {
 			this.currentHostConfig = new HostConfiguration(ssh, wol);
